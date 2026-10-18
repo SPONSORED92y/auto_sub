@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{font-family:system-ui,"Microsoft JhengHei",sans-serif;color-scheme:light dark;--bg:#fff;--fg:#17232f;--border:#d6dfe5;--muted:#536574;--active:#fff1bf;--selected:#f0f6ff;--accent:#176b75}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-size:14px}button,input,textarea{font:inherit}button{border:1px solid var(--border);border-radius:6px;padding:7px 12px;background:var(--bg);color:var(--fg);cursor:pointer}button:hover:not(:disabled){border-color:var(--accent)}button:disabled{opacity:.4;cursor:default}button.primary{background:var(--accent);color:white;border-color:var(--accent)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 12px}.hint{color:var(--muted);font-size:13px;margin:8px 0 12px}audio{width:100%;height:42px}.player{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px}.player-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}.scroll{max-height:570px;overflow:auto;border:1px solid var(--border);border-radius:8px}table{border-collapse:collapse;width:100%;min-width:720px}th{position:sticky;top:0;background:var(--bg);text-align:left;color:var(--muted);z-index:1;font-weight:500}th,td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}th:first-child,td:first-child{width:45px}.time{width:195px}input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:5px;background:var(--bg);color:var(--fg)}input.pending{border:1px dashed #ad6c00;background:#fff7df;color:#684200}.steps{display:flex;gap:3px;margin-top:5px}.steps button{flex:1;padding:4px 3px;font-size:12px}textarea{width:100%;min-height:68px;resize:vertical;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--fg);line-height:1.55}tr.selected td{background:var(--selected)}tr.active td{background:var(--active)}tr.active td:first-child{box-shadow:inset 4px 0 var(--accent);font-weight:700}#message{min-height:20px;color:var(--muted);margin:8px 0}#pending{color:#9b6200}#clock{font-variant-numeric:tabular-nums}.text-cell{min-width:270px}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style></head><body>
+<div class="player"><div class="player-head"><strong>音訊播放</strong><span id="clock">0.000 秒</span></div><audio id="audio" controls preload="metadata"></audio><div class="hint">播放與拖曳時依時間反白目前字幕；時間留白的字幕須先補齊才能精確反白。</div></div>
+<div class="toolbar">
+<button id="split">拆句</button><button id="merge-prev">向前合併</button><button id="merge-next">向後合併</button>
+<button id="delete">刪除句子</button><span id="selected-cue" class="hint">尚未選取句子</span>
+<button id="sync" aria-pressed="false" title="啟用後跟隨播放位置；手動捲動表格會關閉">同步音訊</button><span id="sync-state" class="hint">跟隨已關閉</span>
+<button id="auto" class="primary">自動辨識斷句時間</button>
+<button id="undo">復原</button><span id="pending"></span>
+</div>
+<div class="hint">點字幕文字或編號可跳到該句，保留播放／暫停狀態。時間欄也可選取該列；刪除可復原。游標在句首可向前合併，句尾可向後合併；拆句時間先留白。修改會自動同步。</div>
+<div class="scroll" tabindex="0" aria-label="字幕表格捲動區"><table aria-label="編輯字幕"><thead><tr><th>#</th><th class="time">開始（秒）</th><th class="time">結束（秒）</th><th>字幕文字</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div id="message" role="status" aria-live="polite"></div>
+<script src="editor.js"></script>
+</body></html>

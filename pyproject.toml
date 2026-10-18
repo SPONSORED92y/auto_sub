@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auto-sub-local"
+version = "0.1.0"
+description = "Local Traditional Chinese and English audio-to-SRT tool"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "faster-whisper>=1.1,<2",
+  "streamlit>=1.50,<2",
+  "opencc-python-reimplemented>=0.1.7,<0.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+ui-test = ["playwright>=1.50,<2"]
+gpu = [
+  "nvidia-cublas-cu12>=12,<13; sys_platform == 'win32'",
+  "nvidia-cudnn-cu12>=9,<10; sys_platform == 'win32'",
+  "nvidia-cuda-runtime-cu12>=12,<13; sys_platform == 'win32'",
+]
+
+[tool.setuptools.packages.find]
+include = ["autosub*"]
+
+[tool.setuptools.package-data]
+autosub = ["editor_frontend/*.html", "editor_frontend/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
